@@ -1,4 +1,9 @@
 {
-  "builds": [{ "src": "tulensite/index.html", "use": "@vercel/static" }],
-  "routes": [{ "src": "/(.*)", "dest": "/tulensite/$1" }]
+  "buildCommand": null,
+  "devCommand": null,
+  "installCommand": null,
+  "framework": null,
+  "outputDirectory": ".",
+  "cleanUrls": true,
+  "trailingSlash": false
 }
