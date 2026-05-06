@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes"/>
   <title>The Тюлень</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
@@ -162,6 +162,155 @@
     .about-bio { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.9; letter-spacing: 0.01em; }
     .about-bio p { margin: 0; }
     .stats-row { font-size: 13px; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; }
+
+    /* МОБІЛЬНА АДАПТАЦІЯ */
+    @media (max-width: 768px) {
+      .content {
+        width: 90%;
+        padding: 20px 16px;
+        margin-top: 60px;
+      }
+      .sidebar {
+        position: fixed;
+        left: 10px;
+        right: 10px;
+        top: auto;
+        bottom: 0;
+        width: auto;
+        max-height: 40vh;
+        border-radius: 16px 16px 0 0;
+        margin: 0 10px;
+      }
+      .chat-panel {
+        position: fixed;
+        right: 10px;
+        left: 10px;
+        top: auto;
+        bottom: 42vh;
+        transform: none;
+        width: auto;
+        height: 40vh;
+        margin: 0 10px;
+      }
+      .profile-card-inner {
+        flex-direction: column;
+        text-align: center;
+        gap: 12px;
+        padding: 18px;
+      }
+      .profile-quote {
+        padding-left: 0;
+        border-left: none;
+        text-align: center;
+      }
+      .profile-avatar {
+        width: 70px;
+        height: 70px;
+      }
+      .profile-name {
+        font-size: 24px;
+      }
+      .about-card {
+        padding: 16px 18px;
+      }
+      .about-top {
+        flex-direction: column;
+        gap: 12px;
+      }
+      .about-bio {
+        font-size: 12px;
+        line-height: 1.6;
+      }
+      .about-bio p {
+        margin-bottom: 8px;
+      }
+      .mini-now {
+        gap: 10px;
+      }
+      .mini-cover {
+        width: 44px;
+        height: 44px;
+      }
+      .mini-title {
+        font-size: 12px;
+      }
+      .mini-artist {
+        font-size: 10px;
+      }
+      .track-item {
+        padding: 6px 12px;
+      }
+      .track-cover {
+        width: 28px;
+        height: 28px;
+      }
+      .track-item-title {
+        font-size: 11px;
+      }
+      .track-item-artist {
+        font-size: 9px;
+      }
+      .theme-btn {
+        top: 10px;
+        left: 10px;
+        width: 40px;
+        height: 40px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .content {
+        width: 95%;
+        padding: 15px 12px;
+      }
+      .profile-name {
+        font-size: 20px;
+      }
+      .profile-quote {
+        font-size: 10px;
+      }
+      .about-bio {
+        font-size: 11px;
+      }
+      .stats-row {
+        font-size: 10px;
+      }
+      .mini-controls {
+        gap: 12px;
+      }
+      .mc-btn.play {
+        width: 32px;
+        height: 32px;
+      }
+      .chat-msg-text {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+      .chat-msg-name {
+        font-size: 9px;
+      }
+      .chat-input {
+        font-size: 11px;
+        padding: 6px 8px;
+      }
+      .chat-send {
+        width: 32px;
+        height: 32px;
+      }
+      .chat-notice {
+        font-size: 8px;
+      }
+    }
+    
+    @media (max-width: 768px) and (orientation: landscape) {
+      .sidebar {
+        max-height: 35vh;
+      }
+      .chat-panel {
+        bottom: 37vh;
+        height: 35vh;
+      }
+    }
   </style>
 </head>
 <body>
@@ -270,35 +419,30 @@
       loading:'Loading...', leave_comment:'Leave a comment...', chat_notice:'Max 280 characters · you can only post once',
       about_me:'About me', location:'📍 Ukraine / Poland', quote:'i like music more than people',
       already_posted:"✓ You've already left a comment",
-      bio:'<p>🎬 YouTube & TikTok creator — 45M+ views</p><p>🖥️ Minecraft servers owner</p><p>🌍 Visited 19 countries</p><p>📦 Sold 3,000+ products online</p><p>💻 Kinda developer</p><p>🗣️ Languages: FLAGSHTML</p>'
+      bio:`<p>🎬 YouTube & TikTok creator — 45M+ views</p><p>🖥️ Minecraft servers owner</p><p>🌍 Visited 19 countries</p><p>📦 Sold 3,000+ products online</p><p>💻 Kinda developer</p><p>🗣️ Languages: ${flagsHtml}</p>`
     },
     uk: {
       playlist:'Плейлист', comments:'Коментарі', comments_sub:'1 повідомлення · анонімно',
       loading:'Завантаження...', leave_comment:'Залишити коментар...', chat_notice:'Макс. 280 символів · лише один раз',
       about_me:'Про мене', location:'📍 Україна / Польща', quote:'я люблю музику більше ніж людей',
       already_posted:'✓ Ви вже залишили коментар',
-      bio:'<p>🎬 Ютуб & ТікТок автор — 45М+ переглядів</p><p>🖥️ Власник Minecraft серверів</p><p>🌍 Відвідав 19 країн</p><p>📦 Продав 3 000+ товарів онлайн</p><p>💻 Недо розробник</p><p>🗣️ Мови: FLAGSHTML</p>'
+      bio:`<p>🎬 Ютуб & ТікТок автор — 45М+ переглядів</p><p>🖥️ Власник Minecraft серверів</p><p>🌍 Відвідав 19 країн</p><p>📦 Продав 3 000+ товарів онлайн</p><p>💻 Недо розробник</p><p>🗣️ Мови: ${flagsHtml}</p>`
     },
     ru: {
       playlist:'Плейлист', comments:'Комментарии', comments_sub:'1 сообщение · анонимно',
       loading:'Загрузка...', leave_comment:'Оставить комментарий...', chat_notice:'Макс. 280 символов · один раз',
       about_me:'Обо мне', location:'📍 Украина / Польша', quote:'я люблю музыку больше чем людей',
       already_posted:'✓ Вы уже оставили комментарий',
-      bio:'<p>🎬 YouTube & TikTok автор — 45М+ просмотров</p><p>🖥️ Владелец Minecraft серверов</p><p>🌍 Посетил 19 стран</p><p>📦 Продал 3 000+ товаров онлайн</p><p>💻 Недо разработчик</p><p>🗣️ Языки: FLAGSHTML</p>'
+      bio:`<p>🎬 YouTube & TikTok автор — 45М+ просмотров</p><p>🖥️ Владелец Minecraft серверов</p><p>🌍 Посетил 19 стран</p><p>📦 Продал 3 000+ товаров онлайн</p><p>💻 Недо разработчик</p><p>🗣️ Языки: ${flagsHtml}</p>`
     },
     es: {
       playlist:'Lista', comments:'Comentarios', comments_sub:'1 mensaje · anónimo',
       loading:'Cargando...', leave_comment:'Deja un comentario...', chat_notice:'Máx. 280 caracteres · solo una vez',
       about_me:'Sobre mí', location:'📍 Ucrania / Polonia', quote:'me gusta la música más que la gente',
       already_posted:'✓ Ya dejaste un comentario',
-      bio:'<p>🎬 Creador en YouTube & TikTok — 45M+ vistas</p><p>🖥️ Dueño de servidores de Minecraft</p><p>🌍 Visitó 19 países</p><p>📦 Vendió 3,000+ productos online</p><p>💻 Un poco desarrollador</p><p>🗣️ Idiomas: FLAGSHTML</p>'
+      bio:`<p>🎬 Creador en YouTube & TikTok — 45M+ vistas</p><p>🖥️ Dueño de servidores de Minecraft</p><p>🌍 Visitó 19 países</p><p>📦 Vendió 3,000+ productos online</p><p>💻 Un poco desarrollador</p><p>🗣️ Idiomas: ${flagsHtml}</p>`
     }
   };
-
-  // Заменяем FLAGSHTML на реальный HTML с флагами
-  Object.keys(translations).forEach(lang => {
-    translations[lang].bio = translations[lang].bio.replace('FLAGSHTML', flagsHtml);
-  });
 
   let currentLang = 'en', hasPosted = false;
 
