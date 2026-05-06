@@ -11,12 +11,8 @@
     .wrap { width: 100%; min-height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
     .bg { position: absolute; inset: 0; background-image: url('background.png'); background-size: cover; background-position: center 130%; filter: brightness(0.7); transition: filter 0.4s; }
     #glowCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
-
-    /* THEME BUTTON */
     .theme-btn { position: fixed; top: 16px; left: 16px; z-index: 10000; width: 52px; height: 52px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(12px); transition: background 0.3s, border-color 0.3s, transform 0.15s; color: rgba(255,255,255,0.8); }
     .theme-btn:hover { transform: scale(1.08); }
-
-    /* DAY MODE */
     body.day { background: #ece9e3; }
     body.day .bg { filter: brightness(0.3) saturate(0.5); }
     body.day .theme-btn { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.65); }
@@ -62,9 +58,7 @@
     body.day .stats-row { color: rgba(0,0,0,0.38); }
     body.day .profile-card { background: rgba(255,255,255,0.82); border-color: rgba(0,0,0,0.08); }
     body.day .profile-name { color: #111; text-shadow: none; }
-    body.day .profile-quote { color: rgba(0,0,0,0.4); border-color: rgba(0,0,0,0.15); }
-
-    /* SIDEBAR */
+    body.day .profile-quote { color: rgba(0,0,0,0.5); border-color: rgba(0,0,0,0.2); }
     .sidebar { position: fixed; left: 24px; top: 20%; width: 320px; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; backdrop-filter: blur(16px); z-index: 10; display: flex; flex-direction: column; overflow: hidden; max-height: 85vh; user-select: none; transition: background 0.4s, border-color 0.4s; }
     .sidebar-header { padding: 16px 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; cursor: grab; display: flex; align-items: center; justify-content: space-between; }
     .sidebar-header:active { cursor: grabbing; }
@@ -120,8 +114,6 @@
     .bar:nth-child(3) { height: 6px; animation-delay: 0.3s; }
     @keyframes barBounce { 0%,100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
     .bars.paused .bar { animation-play-state: paused; }
-
-    /* CHAT */
     .chat-panel { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); width: 280px; height: 80vh; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; backdrop-filter: blur(16px); z-index: 10; display: flex; flex-direction: column; overflow: hidden; transition: background 0.4s, border-color 0.4s; }
     .chat-header { padding: 14px 18px 10px; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
     .chat-header-title { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); text-transform: uppercase; }
@@ -150,66 +142,15 @@
     .chat-loading { display: flex; align-items: center; justify-content: center; padding: 20px; color: rgba(255,255,255,0.2); font-size: 12px; gap: 8px; }
     .chat-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.1); border-top-color: rgba(255,255,255,0.4); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-
-    /* MAIN CONTENT */
     .content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 16px; width: 560px; padding: 30px 24px; }
-
-    /* PROFILE CARD */
-    .profile-card {
-      width: 100%;
-      background: rgba(0,0,0,0.75);
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: 16px;
-      overflow: hidden;
-      position: relative;
-      backdrop-filter: blur(12px);
-      transition: background 0.4s, border-color 0.4s;
-    }
-    .profile-card-bg {
-      position: absolute; inset: 0;
-      background-image: url('background.png');
-      background-size: cover;
-      background-position: center;
-      opacity: 0.2;
-    }
-    .profile-card-inner {
-      position: relative; z-index: 2;
-      display: flex; align-items: center;
-      gap: 22px;
-      padding: 22px 26px;
-    }
-    .profile-avatar {
-      width: 88px; height: 88px;
-      border-radius: 12px;
-      border: 2px solid rgba(255,255,255,0.2);
-      overflow: hidden; flex-shrink: 0;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-    }
+    .profile-card { width: 100%; background: rgba(0,0,0,0.88); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; overflow: hidden; position: relative; backdrop-filter: blur(12px); transition: background 0.4s, border-color 0.4s; }
+    .profile-card-bg { position: absolute; inset: 0; background-image: url('background.png'); background-size: cover; background-position: center; opacity: 0.06; }
+    .profile-card-inner { position: relative; z-index: 2; display: flex; align-items: center; gap: 22px; padding: 22px 26px; }
+    .profile-avatar { width: 88px; height: 88px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.2); overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
     .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-info {
-      flex: 1; min-width: 0;
-      display: flex; flex-direction: column;
-      gap: 10px;
-    }
-    .profile-name {
-      font-family: 'Playfair Display', serif;
-      font-size: 30px; font-weight: 700;
-      color: #fff;
-      text-shadow: 0 2px 12px rgba(0,0,0,0.5);
-      letter-spacing: 0.02em;
-      line-height: 1;
-    }
-    .profile-quote {
-      font-size: 12px;
-      font-style: italic;
-      color: rgba(255,255,255,0.45);
-      letter-spacing: 0.04em;
-      padding-left: 10px;
-      border-left: 1px solid rgba(255,255,255,0.2);
-      line-height: 1.5;
-    }
-
-    /* ABOUT CARD */
+    .profile-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+    .profile-name { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.5); letter-spacing: 0.02em; line-height: 1; }
+    .profile-quote { font-size: 13px; font-style: italic; font-weight: 500; color: rgba(255,255,255,0.9); letter-spacing: 0.04em; padding-left: 10px; border-left: 2px solid rgba(255,255,255,0.45); line-height: 1.5; }
     .about-card { width: 100%; background: rgba(0,0,0,0.65); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 22px 26px; backdrop-filter: blur(12px); display: flex; flex-direction: column; gap: 16px; text-align: center; transition: background 0.4s, border-color 0.4s; }
     .about-top { display: flex; align-items: center; justify-content: space-between; }
     .about-label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; color: rgba(255,255,255,0.25); text-transform: uppercase; }
@@ -225,17 +166,11 @@
 </head>
 <body>
 <canvas id="glowCanvas"></canvas>
-
 <button class="theme-btn" id="themeBtn" title="Toggle day/night">
-  <svg id="themeIcon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor">
-    <path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>
-  </svg>
+  <svg id="themeIcon" width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/></svg>
 </button>
-
 <div class="wrap">
   <div class="bg"></div>
-
-  <!-- PLAYLIST -->
   <div class="sidebar" id="sidebar">
     <div class="sidebar-header" id="dragHandle">
       <div>
@@ -278,8 +213,6 @@
     </div>
     <div class="sidebar-list" id="sidebarList"></div>
   </div>
-
-  <!-- CHAT -->
   <div class="chat-panel">
     <div class="chat-header">
       <div class="chat-header-title" data-i18n="comments">Comments</div>
@@ -291,32 +224,22 @@
     <div class="chat-bottom" id="chatBottom">
       <div class="chat-input-row">
         <textarea class="chat-input" id="chatInput" placeholder="Leave a comment..." maxlength="280" rows="1"></textarea>
-        <button class="chat-send" id="chatSend">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg>
-        </button>
+        <button class="chat-send" id="chatSend"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
       </div>
       <div class="chat-notice" data-i18n="chat_notice">Max 280 characters · you can only post once</div>
     </div>
   </div>
-
-  <!-- MAIN -->
   <div class="content">
-
-    <!-- PROFILE CARD -->
     <div class="profile-card">
       <div class="profile-card-bg"></div>
       <div class="profile-card-inner">
-        <div class="profile-avatar">
-          <img src="myavatarka.jpg" alt="avatar"/>
-        </div>
+        <div class="profile-avatar"><img src="myavatarka.jpg" alt="avatar"/></div>
         <div class="profile-info">
           <div class="profile-name">The Тюлень</div>
           <div class="profile-quote" data-i18n="quote">i like music more than people</div>
         </div>
       </div>
     </div>
-
-    <!-- ABOUT CARD -->
     <div class="about-card">
       <div class="about-top">
         <div class="about-label" data-i18n="about_me">About me</div>
@@ -330,14 +253,10 @@
       <div class="about-bio" id="aboutBio"></div>
       <div class="stats-row" data-i18n="location">📍 Ukraine / Poland</div>
     </div>
-
   </div>
 </div>
-
 <audio id="audio"></audio>
-
 <script>
-  // ── TRANSLATIONS ──────────────────────────────────────────
   const flagsHtml = `
     <img src="flags/ua.png" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;margin:0 2px;"/>
     <img src="flags/pl.png" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;margin:0 2px;"/>
@@ -347,41 +266,49 @@
 
   const translations = {
     en: {
-      playlist: 'Playlist', comments: 'Comments', comments_sub: '1 message per person · anonymous',
-      loading: 'Loading...', leave_comment: 'Leave a comment...', chat_notice: 'Max 280 characters · you can only post once',
-      about_me: 'About me', location: '📍 Ukraine / Poland', quote: 'i like music more than people',
-      already_posted: "✓ You've already left a comment",
-      bio: `<p>🎬 YouTube & TikTok creator — 45M+ views</p><p>🖥️ Minecraft servers owner</p><p>🌍 Visited 19 countries</p><p>📦 Sold 3,000+ products online</p><p>💻 Kinda developer</p><p>🗣️ Languages: ${flagsHtml}</p>`
+      playlist:'Playlist', comments:'Comments', comments_sub:'1 message per person · anonymous',
+      loading:'Loading...', leave_comment:'Leave a comment...', chat_notice:'Max 280 characters · you can only post once',
+      about_me:'About me', location:'📍 Ukraine / Poland', quote:'i like music more than people',
+      already_posted:"✓ You've already left a comment",
+      bio:'<p>🎬 YouTube & TikTok creator — 45M+ views</p><p>🖥️ Minecraft servers owner</p><p>🌍 Visited 19 countries</p><p>📦 Sold 3,000+ products online</p><p>💻 Kinda developer</p><p>🗣️ Languages: FLAGSHTML</p>'
     },
     uk: {
-      playlist: 'Плейлист', comments: 'Коментарі', comments_sub: '1 повідомлення · анонімно',
-      loading: 'Завантаження...', leave_comment: 'Залишити коментар...', chat_notice: 'Макс. 280 символів · лише один раз',
-      about_me: 'Про мене', location: '📍 Україна / Польща', quote: 'я люблю музику більше ніж людей',
-      already_posted: '✓ Ви вже залишили коментар',
-      bio: `<p>🎬 Ютуб & ТікТок автор — 45М+ переглядів</p><p>🖥️ Власник Minecraft серверів</p><p>🌍 Відвідав 19 країн</p><p>📦 Продав 3 000+ товарів онлайн</p><p>💻 Недо розробник</p><p>🗣️ Мови: ${flagsHtml}</p>`
+      playlist:'Плейлист', comments:'Коментарі', comments_sub:'1 повідомлення · анонімно',
+      loading:'Завантаження...', leave_comment:'Залишити коментар...', chat_notice:'Макс. 280 символів · лише один раз',
+      about_me:'Про мене', location:'📍 Україна / Польща', quote:'я люблю музику більше ніж людей',
+      already_posted:'✓ Ви вже залишили коментар',
+      bio:'<p>🎬 Ютуб & ТікТок автор — 45М+ переглядів</p><p>🖥️ Власник Minecraft серверів</p><p>🌍 Відвідав 19 країн</p><p>📦 Продав 3 000+ товарів онлайн</p><p>💻 Недо розробник</p><p>🗣️ Мови: FLAGSHTML</p>'
     },
     ru: {
-      playlist: 'Плейлист', comments: 'Комментарии', comments_sub: '1 сообщение · анонимно',
-      loading: 'Загрузка...', leave_comment: 'Оставить комментарий...', chat_notice: 'Макс. 280 символов · один раз',
-      about_me: 'Обо мне', location: '📍 Украина / Польша', quote: 'я люблю музыку больше чем людей',
-      already_posted: '✓ Вы уже оставили комментарий',
-      bio: `<p>🎬 YouTube & TikTok автор — 45М+ просмотров</p><p>🖥️ Владелец Minecraft серверов</p><p>🌍 Посетил 19 стран</p><p>📦 Продал 3 000+ товаров онлайн</p><p>💻 Недо разработчик</p><p>🗣️ Языки: ${flagsHtml}</p>`
+      playlist:'Плейлист', comments:'Комментарии', comments_sub:'1 сообщение · анонимно',
+      loading:'Загрузка...', leave_comment:'Оставить комментарий...', chat_notice:'Макс. 280 символов · один раз',
+      about_me:'Обо мне', location:'📍 Украина / Польша', quote:'я люблю музыку больше чем людей',
+      already_posted:'✓ Вы уже оставили комментарий',
+      bio:'<p>🎬 YouTube & TikTok автор — 45М+ просмотров</p><p>🖥️ Владелец Minecraft серверов</p><p>🌍 Посетил 19 стран</p><p>📦 Продал 3 000+ товаров онлайн</p><p>💻 Недо разработчик</p><p>🗣️ Языки: FLAGSHTML</p>'
     },
     es: {
-      playlist: 'Lista', comments: 'Comentarios', comments_sub: '1 mensaje · anónimo',
-      loading: 'Cargando...', leave_comment: 'Deja un comentario...', chat_notice: 'Máx. 280 caracteres · solo una vez',
-      about_me: 'Sobre mí', location: '📍 Ucrania / Polonia', quote: 'me gusta la música más que la gente',
-      already_posted: '✓ Ya dejaste un comentario',
-      bio: `<p>🎬 Creador en YouTube & TikTok — 45M+ vistas</p><p>🖥️ Dueño de servidores de Minecraft</p><p>🌍 Visitó 19 países</p><p>📦 Vendió 3,000+ productos online</p><p>💻 Un poco desarrollador</p><p>🗣️ Idiomas: ${flagsHtml}</p>`
+      playlist:'Lista', comments:'Comentarios', comments_sub:'1 mensaje · anónimo',
+      loading:'Cargando...', leave_comment:'Deja un comentario...', chat_notice:'Máx. 280 caracteres · solo una vez',
+      about_me:'Sobre mí', location:'📍 Ucrania / Polonia', quote:'me gusta la música más que la gente',
+      already_posted:'✓ Ya dejaste un comentario',
+      bio:'<p>🎬 Creador en YouTube & TikTok — 45M+ vistas</p><p>🖥️ Dueño de servidores de Minecraft</p><p>🌍 Visitó 19 países</p><p>📦 Vendió 3,000+ productos online</p><p>💻 Un poco desarrollador</p><p>🗣️ Idiomas: FLAGSHTML</p>'
     }
   };
+
+  // Заменяем FLAGSHTML на реальный HTML с флагами
+  Object.keys(translations).forEach(lang => {
+    translations[lang].bio = translations[lang].bio.replace('FLAGSHTML', flagsHtml);
+  });
 
   let currentLang = 'en', hasPosted = false;
 
   function applyLang(lang) {
     currentLang = lang;
     const t = translations[lang];
-    document.querySelectorAll('[data-i18n]').forEach(el => { const k = el.dataset.i18n; if (t[k] !== undefined) el.innerHTML = t[k]; });
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.dataset.i18n;
+      if (t[k] !== undefined) el.innerHTML = t[k];
+    });
     document.getElementById('chatInput').placeholder = t.leave_comment;
     document.getElementById('aboutBio').innerHTML = t.bio;
     document.querySelectorAll('.lang-flag').forEach(b => b.classList.remove('active'));
@@ -395,7 +322,6 @@
   document.querySelectorAll('.lang-flag').forEach(btn => { btn.onclick = () => applyLang(btn.dataset.lang); });
   applyLang('en');
 
-  // ── THEME ─────────────────────────────────────────────────
   const SUN = `<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>`;
   const MOON = `<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>`;
   let isDay = false;
@@ -405,7 +331,6 @@
     document.getElementById('themeIcon').innerHTML = isDay ? MOON : SUN;
   };
 
-  // ── SUPABASE ──────────────────────────────────────────────
   const SUPABASE_URL = 'https://cukvmexucbutucmzgapz.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_SNTiux5vDCfKdRtVlGJLOw__6zGNcQ3';
   async function sbFetch(path, opts={}) {
@@ -447,7 +372,6 @@
   document.getElementById('chatInput').addEventListener('input',function(){this.style.height='auto';this.style.height=Math.min(this.scrollHeight,80)+'px';});
   initChat();
 
-  // ── CURSOR TRAIL ──────────────────────────────────────────
   const canvas=document.getElementById('glowCanvas'); const ctx=canvas.getContext('2d');
   function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;} resizeCanvas(); window.addEventListener('resize',resizeCanvas);
   const trail=[];
@@ -460,13 +384,11 @@
   }
   drawTrail();
 
-  // ── DRAG SIDEBAR ──────────────────────────────────────────
   const sidebar=document.getElementById('sidebar'); const handle=document.getElementById('dragHandle'); let dragging=false,startX,startY;
   handle.addEventListener('mousedown',e=>{dragging=true;const r=sidebar.getBoundingClientRect();startX=e.clientX-r.left;startY=e.clientY-r.top;e.preventDefault();});
   document.addEventListener('mousemove',e=>{if(!dragging)return;sidebar.style.left=Math.max(0,Math.min(window.innerWidth-sidebar.offsetWidth,e.clientX-startX))+'px';sidebar.style.top=Math.max(0,Math.min(window.innerHeight-sidebar.offsetHeight,e.clientY-startY))+'px';});
   document.addEventListener('mouseup',()=>{dragging=false;});
 
-  // ── PLAYLIST ─────────────────────────────────────────────
   const playlist=[
     {title:"Saccharine",artist:"Violent Vira",src:"saccharine.mp3",cover:"saccharine.png"},
     {title:"Hide Your Kids",artist:"ThxSoMch",src:"hideyourkids.mp3",cover:"hideyourkids.png"},
