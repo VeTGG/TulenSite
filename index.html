@@ -7,120 +7,106 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet"/>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { min-height: 100vh; font-family: 'Inter', sans-serif; background: #000; transition: background 0.4s; }
-    .wrap { width: 100%; min-height: 100vh; position: relative; overflow-x: hidden; }
-    .bg { position: fixed; inset: 0; background-image: url('background.png'); background-size: cover; background-position: center 130%; filter: brightness(0.7); transition: filter 0.4s; z-index: -1; }
+    body { min-height: 100vh; display: flex; align-items: center; justify-content: center; font-family: 'Inter', sans-serif; background: #000; transition: background 0.4s; }
+    .wrap { width: 100%; min-height: 100vh; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .bg { position: absolute; inset: 0; background-image: url('background.png'); background-size: cover; background-position: center 130%; filter: brightness(0.7); transition: filter 0.4s; }
     #glowCanvas { position: fixed; inset: 0; pointer-events: none; z-index: 9999; }
-    
-    /* КНОПКА ТЕМИ */
     .theme-btn { position: fixed; top: 16px; left: 16px; z-index: 10000; width: 52px; height: 52px; background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.15); border-radius: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(12px); transition: background 0.3s, border-color 0.3s, transform 0.15s; color: rgba(255,255,255,0.8); }
     .theme-btn:hover { transform: scale(1.08); }
-    
-    /* ДЕННИЙ РЕЖИМ */
     body.day { background: #ece9e3; }
     body.day .bg { filter: brightness(0.3) saturate(0.5); }
     body.day .theme-btn { background: rgba(255,255,255,0.8); border-color: rgba(0,0,0,0.1); color: rgba(0,0,0,0.65); }
-    body.day .sidebar, body.day .chat-panel { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.1); }
-    body.day .sidebar-header, body.day .mini-player, body.day .chat-header, body.day .chat-bottom { border-color: rgba(0,0,0,0.1); }
-    body.day .sidebar-title, body.day .chat-header-title { color: rgba(0,0,0,0.5); }
-    body.day .sidebar-count, body.day .chat-header-sub, body.day .sidebar-drag-hint { color: rgba(0,0,0,0.3); }
+    body.day .sidebar, body.day .chat-panel { background: rgba(255,255,255,0.85); border-color: rgba(0,0,0,0.07); }
+    body.day .sidebar-header, body.day .mini-player, body.day .chat-header, body.day .chat-bottom { border-color: rgba(0,0,0,0.07); }
+    body.day .sidebar-title, body.day .chat-header-title { color: rgba(0,0,0,0.38); }
+    body.day .sidebar-count, body.day .chat-header-sub, body.day .sidebar-drag-hint { color: rgba(0,0,0,0.22); }
     body.day .mini-title { color: #111; }
-    body.day .mini-artist { color: rgba(0,0,0,0.5); }
-    body.day .mini-time { color: rgba(0,0,0,0.4); }
+    body.day .mini-artist { color: rgba(0,0,0,0.4); }
+    body.day .mini-time { color: rgba(0,0,0,0.35); }
     body.day .mini-prog-bg { background: rgba(0,0,0,0.1); }
     body.day .mini-prog-fill { background: #222; }
-    body.day .mc-btn { color: rgba(0,0,0,0.5); }
+    body.day .mc-btn { color: rgba(0,0,0,0.45); }
     body.day .mc-btn:hover { color: #000; }
     body.day .mc-btn.play { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.1); }
     body.day .mc-btn.play:hover { background: rgba(0,0,0,0.13); }
+    body.day .mini-vol-btn { color: rgba(0,0,0,0.45); }
+    body.day .mini-vol-btn:hover { color: #000; }
+    body.day .mini-vol-slider { background: rgba(0,0,0,0.1); }
+    body.day .mini-vol-slider::-webkit-slider-thumb { background: #333; }
     body.day .track-item:hover { background: rgba(0,0,0,0.04); }
     body.day .track-item.active { background: rgba(0,0,0,0.07); }
-    body.day .track-item-title { color: rgba(0,0,0,0.7); }
+    body.day .track-item-title { color: rgba(0,0,0,0.65); }
     body.day .track-item.active .track-item-title { color: #000; }
-    body.day .track-item-artist { color: rgba(0,0,0,0.4); }
+    body.day .track-item-artist { color: rgba(0,0,0,0.35); }
     body.day .track-num { color: rgba(0,0,0,0.2); }
+    body.day .track-cover, body.day .mini-cover { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.07); }
+    body.day .bar { background: #444; }
+    body.day .sidebar-list::-webkit-scrollbar-thumb, body.day .chat-messages::-webkit-scrollbar-thumb { background: rgba(0,0,0,0.15); }
     body.day .chat-msg-text { background: rgba(0,0,0,0.04); border-color: rgba(0,0,0,0.06); color: #222; }
-    body.day .chat-msg-name { color: rgba(0,0,0,0.5); }
-    body.day .chat-msg-time { color: rgba(0,0,0,0.3); }
+    body.day .chat-msg-name { color: rgba(0,0,0,0.38); }
+    body.day .chat-msg-time { color: rgba(0,0,0,0.22); }
     body.day .chat-input { background: rgba(0,0,0,0.05); border-color: rgba(0,0,0,0.1); color: #111; }
+    body.day .chat-input::placeholder { color: rgba(0,0,0,0.28); }
+    body.day .chat-input:focus { border-color: rgba(0,0,0,0.22); }
     body.day .chat-send { background: rgba(0,0,0,0.07); border-color: rgba(0,0,0,0.09); color: rgba(0,0,0,0.5); }
     body.day .chat-send:hover { background: rgba(0,0,0,0.13); color: #000; }
-    body.day .about-card { background: rgba(255,255,255,0.92); border-color: rgba(0,0,0,0.1); }
-    body.day .about-label { color: rgba(0,0,0,0.4); }
-    body.day .about-bio { color: rgba(0,0,0,0.8); }
-    body.day .stats-row { color: rgba(0,0,0,0.5); }
-    body.day .profile-card { background: rgba(255,255,255,0.92); border-color: rgba(0,0,0,0.1); }
+    body.day .chat-notice, body.day .chat-already { color: rgba(0,0,0,0.28); }
+    body.day .chat-empty { color: rgba(0,0,0,0.22); }
+    body.day .about-card { background: rgba(255,255,255,0.82); border-color: rgba(0,0,0,0.07); }
+    body.day .about-label { color: rgba(0,0,0,0.28); }
+    body.day .about-bio { color: rgba(0,0,0,0.72); }
+    body.day .stats-row { color: rgba(0,0,0,0.38); }
+    body.day .profile-card { background: rgba(255,255,255,0.82); border-color: rgba(0,0,0,0.08); }
     body.day .profile-name { color: #111; text-shadow: none; }
-    body.day .profile-quote { color: rgba(0,0,0,0.6); border-color: rgba(0,0,0,0.2); }
-    
-    /* ОСНОВНИЙ КОНТЕНТ — ВЕРТИКАЛЬНО */
-    .content { position: relative; z-index: 2; max-width: 600px; margin: 0 auto; padding: 80px 20px 100px 20px; }
-    
-    /* ПРОФІЛЬНА КАРТКА */
-    .profile-card { width: 100%; background: rgba(0,0,0,0.75); border: 1px solid rgba(255,255,255,0.12); border-radius: 24px; overflow: hidden; backdrop-filter: blur(12px); transition: background 0.4s, border-color 0.4s; margin-bottom: 20px; }
-    .profile-card-bg { position: absolute; inset: 0; background-image: url('background.png'); background-size: cover; background-position: center; opacity: 0.1; }
-    .profile-card-inner { position: relative; display: flex; align-items: center; gap: 20px; padding: 24px; }
-    .profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 2px solid rgba(255,255,255,0.3); overflow: hidden; flex-shrink: 0; background: rgba(0,0,0,0.3); }
-    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
-    .profile-info { flex: 1; }
-    .profile-name { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fff; letter-spacing: 0.02em; line-height: 1.2; margin-bottom: 8px; }
-    .profile-quote { font-size: 13px; font-style: italic; color: rgba(255,255,255,0.7); padding-left: 10px; border-left: 2px solid rgba(255,255,255,0.4); }
-    
-    /* КАРТКА ПРО МЕНЕ */
-    .about-card { width: 100%; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 20px; backdrop-filter: blur(12px); transition: background 0.4s, border-color 0.4s; margin-bottom: 20px; }
-    .about-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 10px; }
-    .about-label { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
-    .lang-flags { display: flex; gap: 8px; }
-    .lang-flag { width: 28px; height: 20px; border-radius: 4px; cursor: pointer; overflow: hidden; opacity: 0.5; transition: opacity 0.15s, transform 0.15s; border: 1px solid transparent; }
-    .lang-flag img { width: 100%; height: 100%; object-fit: cover; }
-    .lang-flag:hover { opacity: 0.8; transform: scale(1.05); }
-    .lang-flag.active { opacity: 1; transform: scale(1.1); border-color: rgba(255,255,255,0.5); }
-    .about-bio { font-size: 14px; color: rgba(255,255,255,0.85); line-height: 1.8; margin-bottom: 12px; }
-    .about-bio p { margin-bottom: 8px; }
-    .stats-row { font-size: 13px; color: rgba(255,255,255,0.5); text-align: center; padding-top: 8px; border-top: 1px solid rgba(255,255,255,0.1); }
-    
-    /* ПЛЕЙЛИСТ (САЙДБАР) */
-    .sidebar { width: 100%; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; backdrop-filter: blur(16px); display: flex; flex-direction: column; overflow: hidden; margin-bottom: 20px; transition: background 0.4s, border-color 0.4s; }
-    .sidebar-header { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; justify-content: space-between; }
-    .sidebar-title { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
-    .sidebar-count { font-size: 11px; color: rgba(255,255,255,0.25); margin-top: 2px; }
-    .sidebar-drag-hint { font-size: 10px; color: rgba(255,255,255,0.2); }
-    
-    /* МІНІ ПЛЕЄР */
-    .mini-player { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .mini-now { display: flex; align-items: center; gap: 14px; margin-bottom: 12px; }
-    .mini-cover { width: 54px; height: 54px; border-radius: 10px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.08); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    body.day .profile-quote { color: rgba(0,0,0,0.5); border-color: rgba(0,0,0,0.2); }
+    .sidebar { position: fixed; left: 24px; top: 20%; width: 320px; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; backdrop-filter: blur(16px); z-index: 10; display: flex; flex-direction: column; overflow: hidden; max-height: 85vh; user-select: none; transition: background 0.4s, border-color 0.4s; }
+    .sidebar-header { padding: 16px 20px 12px; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; cursor: grab; display: flex; align-items: center; justify-content: space-between; }
+    .sidebar-header:active { cursor: grabbing; }
+    .sidebar-drag-hint { font-size: 10px; color: rgba(255,255,255,0.15); letter-spacing: 0.05em; }
+    .sidebar-title { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+    .sidebar-count { font-size: 11px; color: rgba(255,255,255,0.2); margin-top: 2px; }
+    .mini-player { padding: 16px 20px 14px; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; display: flex; flex-direction: column; gap: 12px; }
+    .mini-now { display: flex; align-items: center; gap: 14px; }
+    .mini-cover { width: 54px; height: 54px; border-radius: 8px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.08); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
     .mini-cover img { width: 100%; height: 100%; object-fit: cover; display: none; }
-    .mini-track { flex: 1; }
+    .mini-track { flex: 1; min-width: 0; }
     .mini-title { font-size: 14px; font-weight: 500; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .mini-artist { font-size: 12px; color: rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 3px; }
-    .mini-progress-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-    .mini-time { font-size: 11px; color: rgba(255,255,255,0.4); min-width: 35px; }
+    .mini-artist { font-size: 12px; color: rgba(255,255,255,0.35); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 3px; }
+    .mini-progress-row { display: flex; align-items: center; gap: 8px; }
+    .mini-time { font-size: 11px; color: rgba(255,255,255,0.35); min-width: 30px; }
     .mini-time.r { text-align: right; }
-    .mini-prog-bg { flex: 1; height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; cursor: pointer; }
-    .mini-prog-fill { height: 3px; background: #fff; border-radius: 2px; width: 0%; }
-    .mini-controls { display: flex; align-items: center; justify-content: center; gap: 25px; }
-    .mc-btn { background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.6); padding: 0; transition: color 0.15s; display: flex; align-items: center; justify-content: center; }
+    .mini-prog-bg { flex: 1; height: 3px; background: rgba(255,255,255,0.12); border-radius: 2px; cursor: pointer; }
+    .mini-prog-fill { height: 3px; background: #fff; border-radius: 2px; width: 0%; pointer-events: none; }
+    .mini-controls { display: flex; align-items: center; justify-content: center; gap: 20px; position: relative; }
+    .mc-btn { background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.55); padding: 0; line-height: 1; display: flex; align-items: center; justify-content: center; transition: color 0.15s; }
     .mc-btn:hover { color: #fff; }
-    .mc-btn.play { width: 42px; height: 42px; background: rgba(255,255,255,0.1); border-radius: 50%; border: 1px solid rgba(255,255,255,0.15); }
-    .mc-btn.play:hover { background: rgba(255,255,255,0.2); }
-    .mini-vol { display: flex; align-items: center; gap: 8px; margin-left: auto; }
-    .mini-vol-btn { background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.6); padding: 0; display: flex; align-items: center; }
-    .mini-vol-slider { width: 60px; height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; cursor: pointer; }
-    .mini-vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 10px; height: 10px; border-radius: 50%; background: #fff; cursor: pointer; }
-    
-    /* СПИСОК ТРЕКІВ */
-    .sidebar-list { max-height: 300px; overflow-y: auto; }
+    .mc-btn.play { width: 38px; height: 38px; background: rgba(255,255,255,0.1); border-radius: 50%; border: 1px solid rgba(255,255,255,0.12); }
+    .mc-btn.play:hover { background: rgba(255,255,255,0.18); }
+    .mini-vol { position: absolute; right: 0; display: flex; align-items: center; gap: 6px; }
+    .mini-vol-btn { background: none; border: none; cursor: pointer; color: rgba(255,255,255,0.55); padding: 0; display: flex; align-items: center; transition: color 0.15s; }
+    .mini-vol-btn:hover { color: #fff; }
+    .mini-vol-wrap { width: 0; overflow: hidden; transition: width 0.2s ease; }
+    .mini-vol:hover .mini-vol-wrap { width: 64px; }
+    .mini-vol-slider { -webkit-appearance: none; appearance: none; width: 64px; height: 3px; background: rgba(255,255,255,0.15); border-radius: 2px; outline: none; cursor: pointer; }
+    .mini-vol-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 11px; height: 11px; border-radius: 50%; background: #fff; cursor: pointer; }
+    .mini-vol-slider::-moz-range-thumb { width: 11px; height: 11px; border-radius: 50%; background: #fff; border: none; cursor: pointer; }
+    .sidebar-list { overflow-y: auto; flex: 1; padding: 6px 0; }
     .sidebar-list::-webkit-scrollbar { width: 3px; }
-    .sidebar-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
-    .track-item { display: flex; align-items: center; gap: 12px; padding: 10px 16px; cursor: pointer; transition: background 0.15s; }
-    .track-item:hover { background: rgba(255,255,255,0.05); }
-    .track-item.active { background: rgba(255,255,255,0.08); }
+    .sidebar-list::-webkit-scrollbar-track { background: transparent; }
+    .sidebar-list::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .track-item { display: flex; align-items: center; gap: 10px; padding: 8px 18px; cursor: pointer; transition: background 0.15s; }
+    .track-item:hover { background: rgba(255,255,255,0.06); }
+    .track-item.active { background: rgba(255,255,255,0.1); }
     .track-item.active .track-item-title { color: #fff; }
-    .track-num { font-size: 11px; color: rgba(255,255,255,0.3); min-width: 24px; }
+    .track-num { font-size: 11px; color: rgba(255,255,255,0.2); min-width: 16px; text-align: right; flex-shrink: 0; }
     .track-item.active .track-num { display: none; }
-    .track-playing { display: none; min-width: 24px; }
-    .track-item.active .track-playing { display: flex; }
+    .track-playing { display: none; min-width: 16px; flex-shrink: 0; }
+    .track-item.active .track-playing { display: flex; align-items: center; }
+    .track-cover { width: 36px; height: 36px; border-radius: 6px; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.08); overflow: hidden; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+    .track-cover img { width: 100%; height: 100%; object-fit: cover; }
+    .track-meta { flex: 1; min-width: 0; }
+    .track-item-title { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.7); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .track-item-artist { font-size: 11px; color: rgba(255,255,255,0.3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
     .bars { display: flex; align-items: flex-end; gap: 2px; height: 12px; }
     .bar { width: 2px; background: #fff; border-radius: 1px; animation: barBounce 0.8s ease-in-out infinite; }
     .bar:nth-child(1) { height: 4px; animation-delay: 0s; }
@@ -128,42 +114,112 @@
     .bar:nth-child(3) { height: 6px; animation-delay: 0.3s; }
     @keyframes barBounce { 0%,100% { transform: scaleY(0.4); } 50% { transform: scaleY(1); } }
     .bars.paused .bar { animation-play-state: paused; }
-    .track-cover { width: 36px; height: 36px; border-radius: 8px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.08); overflow: hidden; flex-shrink: 0; }
-    .track-cover img { width: 100%; height: 100%; object-fit: cover; }
-    .track-meta { flex: 1; }
-    .track-item-title { font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.75); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .track-item-artist { font-size: 10px; color: rgba(255,255,255,0.35); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
-    
-    /* ЧАТ */
-    .chat-panel { width: 100%; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; backdrop-filter: blur(16px); display: flex; flex-direction: column; overflow: hidden; transition: background 0.4s, border-color 0.4s; }
-    .chat-header { padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.06); }
-    .chat-header-title { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: rgba(255,255,255,0.4); text-transform: uppercase; }
-    .chat-header-sub { font-size: 10px; color: rgba(255,255,255,0.25); margin-top: 4px; }
-    .chat-messages { flex: 1; max-height: 350px; overflow-y: auto; padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+    .chat-panel { position: fixed; right: 24px; top: 50%; transform: translateY(-50%); width: 280px; height: 80vh; background: rgba(0,0,0,0.55); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; backdrop-filter: blur(16px); z-index: 10; display: flex; flex-direction: column; overflow: hidden; transition: background 0.4s, border-color 0.4s; }
+    .chat-header { padding: 14px 18px 10px; border-bottom: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+    .chat-header-title { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; color: rgba(255,255,255,0.35); text-transform: uppercase; }
+    .chat-header-sub { font-size: 10px; color: rgba(255,255,255,0.18); margin-top: 2px; }
+    .chat-messages { flex: 1; overflow-y: auto; padding: 12px 14px; display: flex; flex-direction: column; gap: 10px; }
     .chat-messages::-webkit-scrollbar { width: 3px; }
-    .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.15); border-radius: 2px; }
-    .chat-msg { display: flex; flex-direction: column; gap: 4px; }
+    .chat-messages::-webkit-scrollbar-track { background: transparent; }
+    .chat-messages::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 2px; }
+    .chat-msg { display: flex; flex-direction: column; gap: 3px; }
     .chat-msg-top { display: flex; align-items: center; justify-content: space-between; }
-    .chat-msg-name { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.45); }
-    .chat-msg-time { font-size: 9px; color: rgba(255,255,255,0.25); }
-    .chat-msg-text { font-size: 13px; color: rgba(255,255,255,0.85); line-height: 1.45; word-break: break-word; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06); border-radius: 12px; padding: 8px 12px; }
-    .chat-empty { text-align: center; padding: 30px; color: rgba(255,255,255,0.25); font-size: 12px; }
-    .chat-bottom { padding: 14px; border-top: 1px solid rgba(255,255,255,0.06); }
-    .chat-input-row { display: flex; gap: 10px; align-items: flex-end; }
-    .chat-input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 10px 14px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; resize: none; min-height: 40px; max-height: 80px; line-height: 1.4; }
-    .chat-input::placeholder { color: rgba(255,255,255,0.3); }
-    .chat-input:focus { border-color: rgba(255,255,255,0.25); }
-    .chat-send { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; color: rgba(255,255,255,0.7); }
-    .chat-send:hover { background: rgba(255,255,255,0.2); color: #fff; }
-    .chat-notice { font-size: 10px; color: rgba(255,255,255,0.25); text-align: center; margin-top: 10px; }
-    .chat-already { font-size: 12px; color: rgba(255,255,255,0.4); text-align: center; padding: 15px; }
-    .chat-loading { display: flex; align-items: center; justify-content: center; padding: 20px; gap: 8px; color: rgba(255,255,255,0.3); }
-    .chat-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.1); border-top-color: rgba(255,255,255,0.5); border-radius: 50%; animation: spin 0.8s linear infinite; }
+    .chat-msg-name { font-size: 10px; font-weight: 600; color: rgba(255,255,255,0.35); letter-spacing: 0.05em; }
+    .chat-msg-time { font-size: 9px; color: rgba(255,255,255,0.18); }
+    .chat-msg-text { font-size: 13px; color: rgba(255,255,255,0.82); line-height: 1.5; word-break: break-word; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.06); border-radius: 8px; padding: 8px 11px; }
+    .chat-empty { flex: 1; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 8px; color: rgba(255,255,255,0.2); font-size: 12px; text-align: center; padding: 20px; }
+    .chat-empty svg { opacity: 0.2; }
+    .chat-bottom { padding: 12px 14px; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+    .chat-input-row { display: flex; gap: 8px; align-items: flex-end; }
+    .chat-input { flex: 1; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 9px 12px; font-family: 'Inter', sans-serif; font-size: 13px; color: #fff; outline: none; resize: none; min-height: 38px; max-height: 80px; line-height: 1.4; transition: border-color 0.15s; }
+    .chat-input::placeholder { color: rgba(255,255,255,0.25); }
+    .chat-input:focus { border-color: rgba(255,255,255,0.22); }
+    .chat-send { width: 38px; height: 38px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.12); border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.15s; flex-shrink: 0; color: rgba(255,255,255,0.7); }
+    .chat-send:hover { background: rgba(255,255,255,0.18); color: #fff; }
+    .chat-send:disabled { opacity: 0.35; cursor: not-allowed; }
+    .chat-notice { font-size: 10px; color: rgba(255,255,255,0.2); text-align: center; margin-top: 7px; line-height: 1.4; }
+    .chat-already { font-size: 12px; color: rgba(255,255,255,0.35); text-align: center; padding: 10px 0 4px; }
+    .chat-loading { display: flex; align-items: center; justify-content: center; padding: 20px; color: rgba(255,255,255,0.2); font-size: 12px; gap: 8px; }
+    .chat-spinner { width: 14px; height: 14px; border: 2px solid rgba(255,255,255,0.1); border-top-color: rgba(255,255,255,0.4); border-radius: 50%; animation: spin 0.8s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
-    
-    /* ДЛЯ ВЕЛИКИХ ЕКРАНІВ — ЦЕНТРУЄМО */
-    @media (min-width: 768px) {
-      .content { max-width: 550px; margin: 0 auto; }
+    .content { position: relative; z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 16px; width: 560px; padding: 30px 24px; }
+    .profile-card { width: 100%; background: rgba(0,0,0,0.88); border: 1px solid rgba(255,255,255,0.12); border-radius: 16px; overflow: hidden; position: relative; backdrop-filter: blur(12px); transition: background 0.4s, border-color 0.4s; }
+    .profile-card-bg { position: absolute; inset: 0; background-image: url('background.png'); background-size: cover; background-position: center; opacity: 0.06; }
+    .profile-card-inner { position: relative; z-index: 2; display: flex; align-items: center; gap: 22px; padding: 22px 26px; }
+    .profile-avatar { width: 88px; height: 88px; border-radius: 12px; border: 2px solid rgba(255,255,255,0.2); overflow: hidden; flex-shrink: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.5); }
+    .profile-avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .profile-info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 10px; }
+    .profile-name { font-family: 'Playfair Display', serif; font-size: 30px; font-weight: 700; color: #fff; text-shadow: 0 2px 12px rgba(0,0,0,0.5); letter-spacing: 0.02em; line-height: 1; }
+    .profile-quote { font-size: 13px; font-style: italic; font-weight: 500; color: rgba(255,255,255,0.9); letter-spacing: 0.04em; padding-left: 10px; border-left: 2px solid rgba(255,255,255,0.45); line-height: 1.5; }
+    .about-card { width: 100%; background: rgba(0,0,0,0.65); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 22px 26px; backdrop-filter: blur(12px); display: flex; flex-direction: column; gap: 16px; text-align: center; transition: background 0.4s, border-color 0.4s; }
+    .about-top { display: flex; align-items: center; justify-content: space-between; }
+    .about-label { font-size: 10px; font-weight: 600; letter-spacing: 0.14em; color: rgba(255,255,255,0.25); text-transform: uppercase; }
+    .lang-flags { display: flex; gap: 6px; }
+    .lang-flag { width: 28px; height: 20px; border-radius: 3px; cursor: pointer; overflow: hidden; opacity: 0.5; transition: opacity 0.15s, transform 0.15s; border: 1px solid transparent; display: flex; align-items: center; justify-content: center; }
+    .lang-flag img { width: 100%; height: 100%; object-fit: cover; border-radius: 2px; }
+    .lang-flag:hover { opacity: 0.8; transform: scale(1.1); }
+    .lang-flag.active { opacity: 1; transform: scale(1.15); border-color: rgba(255,255,255,0.3); }
+    .about-bio { font-size: 14px; color: rgba(255,255,255,0.8); line-height: 1.9; letter-spacing: 0.01em; }
+    .about-bio p { margin: 0; }
+    .stats-row { font-size: 13px; color: rgba(255,255,255,0.5); letter-spacing: 0.05em; }
+
+    /* ===== ТІЛЬКИ ДЛЯ ТЕЛЕФОНУ ===== */
+    @media (max-width: 768px) {
+      .wrap {
+        flex-direction: column;
+        justify-content: flex-start;
+        padding-top: 20px;
+      }
+      .sidebar {
+        position: relative;
+        left: auto;
+        top: auto;
+        width: 90%;
+        max-width: 400px;
+        margin: 0 auto 20px;
+        max-height: 400px;
+      }
+      .chat-panel {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        width: 90%;
+        max-width: 400px;
+        height: auto;
+        max-height: 500px;
+        margin: 0 auto 20px;
+      }
+      .content {
+        width: 100%;
+        padding: 20px 16px;
+        gap: 20px;
+      }
+      .profile-card-inner {
+        gap: 15px;
+        padding: 18px;
+      }
+      .profile-avatar {
+        width: 65px;
+        height: 65px;
+      }
+      .profile-name {
+        font-size: 22px;
+      }
+      .profile-quote {
+        font-size: 11px;
+      }
+      .about-card {
+        padding: 16px 18px;
+      }
+      .about-bio {
+        font-size: 12px;
+      }
+      .about-top {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+      }
     }
   </style>
 </head>
@@ -175,8 +231,6 @@
 <div class="wrap">
   <div class="bg"></div>
   <div class="content">
-    
-    <!-- ПРОФІЛЬ -->
     <div class="profile-card">
       <div class="profile-card-bg"></div>
       <div class="profile-card-inner">
@@ -187,8 +241,6 @@
         </div>
       </div>
     </div>
-
-    <!-- ПРО МЕНЕ -->
     <div class="about-card">
       <div class="about-top">
         <div class="about-label" data-i18n="about_me">About me</div>
@@ -202,77 +254,73 @@
       <div class="about-bio" id="aboutBio"></div>
       <div class="stats-row" data-i18n="location">📍 Ukraine / Poland</div>
     </div>
-
-    <!-- ПЛЕЙЛИСТ -->
-    <div class="sidebar" id="sidebar">
-      <div class="sidebar-header">
-        <div>
-          <div class="sidebar-title" data-i18n="playlist">Playlist</div>
-          <div class="sidebar-count" id="sidebarCount"></div>
+  </div>
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header" id="dragHandle">
+      <div>
+        <div class="sidebar-title" data-i18n="playlist">Playlist</div>
+        <div class="sidebar-count" id="sidebarCount"></div>
+      </div>
+      <span class="sidebar-drag-hint">⠿ drag</span>
+    </div>
+    <div class="mini-player">
+      <div class="mini-now">
+        <div class="mini-cover">
+          <img id="miniCoverImg" src="" alt=""/>
+          <svg id="miniNoteIcon" width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.4)"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
+        </div>
+        <div class="mini-track">
+          <div class="mini-title" id="miniTitle">— will be soon —</div>
+          <div class="mini-artist" id="miniArtist"></div>
         </div>
       </div>
-      <div class="mini-player">
-        <div class="mini-now">
-          <div class="mini-cover">
-            <img id="miniCoverImg" src="" alt=""/>
-            <svg id="miniNoteIcon" width="20" height="20" viewBox="0 0 24 24" fill="rgba(255,255,255,0.4)"><path d="M12 3v10.55A4 4 0 1 0 14 17V7h4V3h-6z"/></svg>
-          </div>
-          <div class="mini-track">
-            <div class="mini-title" id="miniTitle">— will be soon —</div>
-            <div class="mini-artist" id="miniArtist"></div>
-          </div>
-        </div>
-        <div class="mini-progress-row">
-          <span class="mini-time" id="miniTimeNow">0:00</span>
-          <div class="mini-prog-bg" id="miniProgBg"><div class="mini-prog-fill" id="miniProgFill"></div></div>
-          <span class="mini-time r" id="miniTimeDur">0:00</span>
-        </div>
-        <div class="mini-controls">
-          <button class="mc-btn" id="btnPrev"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
-          <button class="mc-btn play" id="btnPlay">
-            <svg id="iconPlay" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="iconPause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+      <div class="mini-progress-row">
+        <span class="mini-time" id="miniTimeNow">0:00</span>
+        <div class="mini-prog-bg" id="miniProgBg"><div class="mini-prog-fill" id="miniProgFill"></div></div>
+        <span class="mini-time r" id="miniTimeDur">0:00</span>
+      </div>
+      <div class="mini-controls">
+        <button class="mc-btn" id="btnPrev"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 6h2v12H6zm3.5 6 8.5 6V6z"/></svg></button>
+        <button class="mc-btn play" id="btnPlay">
+          <svg id="iconPlay" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          <svg id="iconPause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+        </button>
+        <button class="mc-btn" id="btnNext"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 5.5 3.64L8 15.64V9.86zM16 6h2v12h-2z"/></svg></button>
+        <div class="mini-vol">
+          <button class="mini-vol-btn" id="volBtn">
+            <svg id="volIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
+            <svg id="muteIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 19l2 2L21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>
           </button>
-          <button class="mc-btn" id="btnNext"><svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6 18l8.5-6L6 6v12zm2-8.14 5.5 3.64L8 15.64V9.86zM16 6h2v12h-2z"/></svg></button>
-          <div class="mini-vol">
-            <button class="mini-vol-btn" id="volBtn">
-              <svg id="volIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 7.97v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/></svg>
-              <svg id="muteIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" style="display:none"><path d="M16.5 12A4.5 4.5 0 0 0 14 7.97v2.21l2.45 2.45c.03-.2.05-.41.05-.63zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.796 8.796 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06A8.99 8.99 0 0 0 17.73 19l2 2L21 19.73l-9-9L4.27 3zM12 4 9.91 6.09 12 8.18V4z"/></svg>
-            </button>
-            <input class="mini-vol-slider" type="range" id="volSlider" min="0" max="100" value="80"/>
-          </div>
+          <div class="mini-vol-wrap"><input class="mini-vol-slider" type="range" id="volSlider" min="0" max="100" value="80"/></div>
         </div>
       </div>
-      <div class="sidebar-list" id="sidebarList"></div>
     </div>
-
-    <!-- ЧАТ -->
-    <div class="chat-panel">
-      <div class="chat-header">
-        <div class="chat-header-title" data-i18n="comments">Comments</div>
-        <div class="chat-header-sub" data-i18n="comments_sub">1 message per person · anonymous</div>
-      </div>
-      <div class="chat-messages" id="chatMessages">
-        <div class="chat-loading"><div class="chat-spinner"></div><span data-i18n="loading">Loading...</span></div>
-      </div>
-      <div class="chat-bottom" id="chatBottom">
-        <div class="chat-input-row">
-          <textarea class="chat-input" id="chatInput" placeholder="Leave a comment..." maxlength="280" rows="1"></textarea>
-          <button class="chat-send" id="chatSend"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
-        </div>
-        <div class="chat-notice" data-i18n="chat_notice">Max 280 characters · you can only post once</div>
-      </div>
+    <div class="sidebar-list" id="sidebarList"></div>
+  </div>
+  <div class="chat-panel">
+    <div class="chat-header">
+      <div class="chat-header-title" data-i18n="comments">Comments</div>
+      <div class="chat-header-sub" data-i18n="comments_sub">1 message per person · anonymous</div>
     </div>
-
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-loading"><div class="chat-spinner"></div><span data-i18n="loading">Loading...</span></div>
+    </div>
+    <div class="chat-bottom" id="chatBottom">
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="chatInput" placeholder="Leave a comment..." maxlength="280" rows="1"></textarea>
+        <button class="chat-send" id="chatSend"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21l21-9L2 3v7l15 2-15 2v7z"/></svg></button>
+      </div>
+      <div class="chat-notice" data-i18n="chat_notice">Max 280 characters · you can only post once</div>
+    </div>
   </div>
 </div>
 <audio id="audio"></audio>
 <script>
   const flagsHtml = `
-    <img src="flags/ua.png" style="width:20px;height:14px;border-radius:4px;vertical-align:middle;margin:0 2px;"/>
-    <img src="flags/pl.png" style="width:20px;height:14px;border-radius:4px;vertical-align:middle;margin:0 2px;"/>
-    <img src="flags/gb.png" style="width:20px;height:14px;border-radius:4px;vertical-align:middle;margin:0 2px;"/>
-    <img src="flags/ru.png" style="width:20px;height:14px;border-radius:4px;vertical-align:middle;margin:0 2px;"/>
+    <img src="flags/ua.png" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;margin:0 2px;"/>
+    <img src="flags/pl.png" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;margin:0 2px;"/>
+    <img src="flags/gb.png" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;margin:0 2px;"/>
+    <img src="flags/ru.png" style="width:20px;height:14px;border-radius:2px;vertical-align:middle;margin:0 2px;"/>
   `;
 
   const translations = {
@@ -334,14 +382,11 @@
   const SUN = `<path d="M12 7c-2.76 0-5 2.24-5 5s2.24 5 5 5 5-2.24 5-5-2.24-5-5-5zM2 13h2c.55 0 1-.45 1-1s-.45-1-1-1H2c-.55 0-1 .45-1 1s.45 1 1 1zm18 0h2c.55 0 1-.45 1-1s-.45-1-1-1h-2c-.55 0-1 .45-1 1s.45 1 1 1zM11 2v2c0 .55.45 1 1 1s1-.45 1-1V2c0-.55-.45-1-1-1s-1 .45-1 1zm0 18v2c0 .55.45 1 1 1s1-.45 1-1v-2c0-.55-.45-1-1-1s-1 .45-1 1zM5.99 4.58c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0s.39-1.03 0-1.41L5.99 4.58zm12.37 12.37c-.39-.39-1.03-.39-1.41 0-.39.39-.39 1.03 0 1.41l1.06 1.06c.39.39 1.03.39 1.41 0 .39-.39.39-1.03 0-1.41l-1.06-1.06zm1.06-10.96c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06zM7.05 18.36c.39-.39.39-1.03 0-1.41-.39-.39-1.03-.39-1.41 0l-1.06 1.06c-.39.39-.39 1.03 0 1.41s1.03.39 1.41 0l1.06-1.06z"/>`;
   const MOON = `<path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9 9-4.03 9-9c0-.46-.04-.92-.1-1.36-.98 1.37-2.58 2.26-4.4 2.26-2.98 0-5.4-2.42-5.4-5.4 0-1.81.89-3.42 2.26-4.4-.44-.06-.9-.1-1.36-.1z"/>`;
   let isDay = false;
-  const themeBtn = document.getElementById('themeBtn');
-  if (themeBtn) {
-    themeBtn.onclick = () => {
-      isDay = !isDay;
-      document.body.classList.toggle('day', isDay);
-      document.getElementById('themeIcon').innerHTML = isDay ? MOON : SUN;
-    };
-  }
+  document.getElementById('themeBtn').onclick = () => {
+    isDay = !isDay;
+    document.body.classList.toggle('day', isDay);
+    document.getElementById('themeIcon').innerHTML = isDay ? MOON : SUN;
+  };
 
   const SUPABASE_URL = 'https://cukvmexucbutucmzgapz.supabase.co';
   const SUPABASE_KEY = 'sb_publishable_SNTiux5vDCfKdRtVlGJLOw__6zGNcQ3';
@@ -390,11 +435,11 @@
   }
   initChat();
 
-  const canvas=document.getElementById('glowCanvas'); 
+  const canvas=document.getElementById('glowCanvas');
   if(canvas) {
     const ctx=canvas.getContext('2d');
-    function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;} 
-    resizeCanvas(); 
+    function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight;}
+    resizeCanvas();
     window.addEventListener('resize',resizeCanvas);
     const trail=[];
     window.addEventListener('mousemove',e=>{trail.push({x:e.clientX,y:e.clientY,alpha:1});if(trail.length>80)trail.shift();});
@@ -407,6 +452,13 @@
     drawTrail();
   }
 
+  const sidebar=document.getElementById('sidebar'); const handle=document.getElementById('dragHandle'); let dragging=false,startX,startY;
+  if(handle) {
+    handle.addEventListener('mousedown',e=>{dragging=true;const r=sidebar.getBoundingClientRect();startX=e.clientX-r.left;startY=e.clientY-r.top;e.preventDefault();});
+    document.addEventListener('mousemove',e=>{if(!dragging)return;sidebar.style.left=Math.max(0,Math.min(window.innerWidth-sidebar.offsetWidth,e.clientX-startX))+'px';sidebar.style.top=Math.max(0,Math.min(window.innerHeight-sidebar.offsetHeight,e.clientY-startY))+'px';});
+    document.addEventListener('mouseup',()=>{dragging=false;});
+  }
+
   const playlist=[
     {title:"Saccharine",artist:"Violent Vira",src:"saccharine.mp3",cover:"saccharine.png"},
     {title:"Hide Your Kids",artist:"ThxSoMch",src:"hideyourkids.mp3",cover:"hideyourkids.png"},
@@ -415,7 +467,7 @@
     {title:"GUN TO MY FACE",artist:"h3nce",src:"guntomyface.mp3",cover:"guntomyface.png"},
     {title:"Молодой авангардист",artist:"Конец солнечных дней",src:"molodoyavangadist.mp3",cover:"molodoyavangadist.png"},
     {title:"Почему ты ещё не фанат?",artist:"СЕРЕГА ПИРАТ",src:"pocheshenefan.mp3",cover:"pocheshenefan.png"},
-    {title:"Revenge",artist:"XXXTENTACION",src:"revenge.mp3",cover:"re venge.png"},
+    {title:"Revenge",artist:"XXXTENTACION",src:"revenge.mp3",cover:"revenge.png"},
   ];
   let current=0,isPlaying=false;
   const audio=document.getElementById('audio');
@@ -433,13 +485,8 @@
   }
   function updateSidebar(){document.querySelectorAll('.track-item').forEach((el,i)=>{el.classList.toggle('active',i===current);const bars=el.querySelector('.bars');if(bars)bars.classList.toggle('paused',!isPlaying||i!==current);});}
   function load(idx){
-    const t=playlist[idx]; 
-    document.getElementById('miniTitle').textContent=t.title; 
-    document.getElementById('miniArtist').textContent=t.artist||''; 
-    audio.src=t.src||'';
-    document.getElementById('miniProgFill').style.width='0%'; 
-    document.getElementById('miniTimeNow').textContent='0:00'; 
-    document.getElementById('miniTimeDur').textContent='0:00';
+    const t=playlist[idx]; document.getElementById('miniTitle').textContent=t.title; document.getElementById('miniArtist').textContent=t.artist||''; audio.src=t.src||'';
+    document.getElementById('miniProgFill').style.width='0%'; document.getElementById('miniTimeNow').textContent='0:00'; document.getElementById('miniTimeDur').textContent='0:00';
     const img=document.getElementById('miniCoverImg'),note=document.getElementById('miniNoteIcon');
     if(t.cover && img && note){img.src=t.cover;img.style.display='block';note.style.display='none';}
     else if(img && note){img.style.display='none';note.style.display='block';}
@@ -447,21 +494,16 @@
   }
   function play(){if(!audio.src||audio.src===window.location.href)return;audio.play();isPlaying=true;document.getElementById('iconPlay').style.display='none';document.getElementById('iconPause').style.display='block';updateSidebar();}
   function pause(){audio.pause();isPlaying=false;document.getElementById('iconPlay').style.display='block';document.getElementById('iconPause').style.display='none';updateSidebar();}
-  const playBtn=document.getElementById('btnPlay');
-  if(playBtn) playBtn.onclick=()=>isPlaying?pause():play();
-  const nextBtn=document.getElementById('btnNext');
-  if(nextBtn) nextBtn.onclick=()=>{current=(current+1)%playlist.length;load(current);if(isPlaying)play();};
-  const prevBtn=document.getElementById('btnPrev');
-  if(prevBtn) prevBtn.onclick=()=>{if(audio.currentTime>3){audio.currentTime=0;return;}current=(current-1+playlist.length)%playlist.length;load(current);if(isPlaying)play();};
+  document.getElementById('btnPlay').onclick=()=>isPlaying?pause():play();
+  document.getElementById('btnNext').onclick=()=>{current=(current+1)%playlist.length;load(current);if(isPlaying)play();};
+  document.getElementById('btnPrev').onclick=()=>{if(audio.currentTime>3){audio.currentTime=0;return;}current=(current-1+playlist.length)%playlist.length;load(current);if(isPlaying)play();};
   audio.ontimeupdate=()=>{if(!audio.duration)return;document.getElementById('miniProgFill').style.width=(audio.currentTime/audio.duration*100)+'%';document.getElementById('miniTimeNow').textContent=fmt(audio.currentTime);document.getElementById('miniTimeDur').textContent=fmt(audio.duration);};
   audio.onended=()=>{current=(current+1)%playlist.length;load(current);play();};
-  const progBg=document.getElementById('miniProgBg');
-  if(progBg) progBg.onclick=(e)=>{if(!audio.duration)return;const rect=e.currentTarget.getBoundingClientRect();audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;};
+  document.getElementById('miniProgBg').onclick=(e)=>{if(!audio.duration)return;const rect=e.currentTarget.getBoundingClientRect();audio.currentTime=((e.clientX-rect.left)/rect.width)*audio.duration;};
   audio.volume=0.8;
   const volSlider=document.getElementById('volSlider');
-  if(volSlider) volSlider.oninput=()=>{audio.volume=volSlider.value/100;document.getElementById('volIcon').style.display=audio.volume===0?'none':'block';document.getElementById('muteIcon').style.display=audio.volume===0?'block':'none';};
-  const volBtn=document.getElementById('volBtn');
-  if(volBtn) volBtn.onclick=()=>{if(audio.volume>0){audio.volume=0;volSlider.value=0;document.getElementById('volIcon').style.display='none';document.getElementById('muteIcon').style.display='block';}else{audio.volume=0.8;volSlider.value=80;document.getElementById('volIcon').style.display='block';document.getElementById('muteIcon').style.display='none';}};
+  volSlider.oninput=()=>{audio.volume=volSlider.value/100;document.getElementById('volIcon').style.display=audio.volume===0?'none':'block';document.getElementById('muteIcon').style.display=audio.volume===0?'block':'none';};
+  document.getElementById('volBtn').onclick=()=>{if(audio.volume>0){audio.volume=0;volSlider.value=0;document.getElementById('volIcon').style.display='none';document.getElementById('muteIcon').style.display='block';}else{audio.volume=0.8;volSlider.value=80;document.getElementById('volIcon').style.display='block';document.getElementById('muteIcon').style.display='none';}};
   buildSidebar(); load(0);
 </script>
 </body>
