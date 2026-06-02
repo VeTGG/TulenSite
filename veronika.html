@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Вероніка — Ти здала! 🎉</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Nunito:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --gold: #f9c74f;
+    --rose: #f94f8b;
+    --violet: #9b5de5;
+    --teal: #00bbf9;
+    --mint: #00f5d4;
+    --bg: #0d0d1a;
+    --bg2: #12112b;
+    --white: #fff;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    font-family: 'Nunito', sans-serif;
+    color: var(--white);
+    overflow-x: hidden;
+    min-height: 100vh;
+    cursor: none;
+  }
+
+  /* ── Custom cursor ── */
+  #cursor {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--gold);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    transition: transform .15s, background .3s;
+    mix-blend-mode: difference;
+  }
+  #cursor.big { transform: translate(-50%,-50%) scale(3); }
+
+  /* ── Star-field canvas ── */
+  #stars { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+
+  /* ── Confetti canvas ── */
+  #confetti { position: fixed; inset: 0; z-index: 10; pointer-events: none; }
+
+  /* ── Sections ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── HERO ── */
+  #hero {
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    min-height: 100vh;
+    padding: 2rem;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .glow-ring {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: .35;
+    animation: pulse-ring 4s ease-in-out infinite alternate;
+  }
+  .glow-ring.r1 { width: 600px; height: 600px; background: var(--violet); top: -150px; left: -150px; animation-delay: 0s; }
+  .glow-ring.r2 { width: 500px; height: 500px; background: var(--rose); bottom: -100px; right: -120px; animation-delay: 1.5s; }
+  .glow-ring.r3 { width: 350px; height: 350px; background: var(--teal); top: 40%; left: 55%; animation-delay: .8s; }
+
+  @keyframes pulse-ring {
+    from { transform: scale(1); opacity: .3; }
+    to   { transform: scale(1.18); opacity: .55; }
+  }
+
+  .badge {
+    display: inline-block;
+    padding: .4rem 1.4rem;
+    border: 1.5px solid var(--gold);
+    border-radius: 999px;
+    font-size: .85rem;
+    letter-spacing: .18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.8rem;
+    opacity: 0;
+    animation: fade-up .8s .3s forwards;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(3.5rem, 12vw, 9rem);
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, var(--gold) 0%, var(--rose) 40%, var(--violet) 80%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    opacity: 0;
+    animation: fade-up .9s .55s forwards;
+    position: relative;
+  }
+
+  h1 span.name {
+    display: block;
+    font-style: italic;
+    font-size: clamp(4rem, 14vw, 11rem);
+    background: linear-gradient(90deg, var(--mint), var(--teal), var(--violet));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    animation: shimmer 3s linear infinite;
+    background-size: 200% auto;
+  }
+
+  @keyframes shimmer {
+    from { background-position: 0% center; }
+    to   { background-position: 200% center; }
+  }
+
+  .subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.6rem);
+    font-weight: 600;
+    margin-top: 1.8rem;
+    max-width: 600px;
+    line-height: 1.6;
+    opacity: 0;
+    animation: fade-up .9s .9s forwards;
+    color: rgba(255,255,255,.85);
+  }
+
+  .btn-scroll {
+    margin-top: 3rem;
+    display: inline-flex; align-items: center; gap: .6rem;
+    padding: .9rem 2.4rem;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--rose), var(--violet));
+    font-size: 1rem; font-weight: 800; letter-spacing: .05em;
+    color: #fff; text-decoration: none;
+    box-shadow: 0 0 30px rgba(249,79,139,.5);
+    opacity: 0;
+    animation: fade-up .9s 1.2s forwards;
+    transition: transform .2s, box-shadow .2s;
+    cursor: none;
+  }
+  .btn-scroll:hover { transform: scale(1.06); box-shadow: 0 0 50px rgba(249,79,139,.75); }
+
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* floating emoji */
+  .floaty {
+    position: absolute; font-size: 2.2rem;
+    animation: floaty-anim linear infinite;
+    opacity: .7; pointer-events: none; user-select: none;
+  }
+  @keyframes floaty-anim {
+    0%   { transform: translateY(0) rotate(0deg); opacity: .7; }
+    50%  { opacity: 1; }
+    100% { transform: translateY(-110vh) rotate(360deg); opacity: 0; }
+  }
+
+  /* ── CARD SECTION ── */
+  #cards {
+    padding: 6rem 2rem;
+    display: flex; flex-direction: column; align-items: center; gap: 2rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    text-align: center;
+    margin-bottom: 2.5rem;
+    background: linear-gradient(90deg, var(--gold), var(--mint));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem;
+    width: 100%; max-width: 1000px;
+  }
+
+  .card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.09);
+    border-radius: 20px;
+    padding: 2rem 1.8rem;
+    backdrop-filter: blur(12px);
+    transition: transform .3s, box-shadow .3s, border-color .3s;
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  .card.visible { opacity: 1; transform: translateY(0); transition: opacity .6s, transform .6s, box-shadow .3s; }
+  .card:hover { transform: translateY(-8px) scale(1.02); box-shadow: 0 20px 60px rgba(0,0,0,.4); border-color: var(--gold); }
+
+  .card-icon { font-size: 2.8rem; margin-bottom: 1rem; display: block; }
+  .card h3 { font-family: 'Playfair Display', serif; font-size: 1.4rem; margin-bottom: .6rem; color: var(--gold); }
+  .card p { line-height: 1.7; color: rgba(255,255,255,.75); font-size: .95rem; }
+
+  /* ── FIREWORK BUTTON ── */
+  #fireworks-btn {
+    margin-top: 3rem;
+    padding: 1rem 3rem;
+    border-radius: 999px;
+    border: none; outline: none;
+    background: linear-gradient(135deg, var(--gold), var(--rose));
+    font-family: 'Nunito', sans-serif;
+    font-size: 1.1rem; font-weight: 800;
+    color: #fff;
+    cursor: none;
+    box-shadow: 0 0 40px rgba(249,199,79,.4);
+    transition: transform .2s, box-shadow .2s;
+  }
+  #fireworks-btn:hover { transform: scale(1.07); box-shadow: 0 0 70px rgba(249,199,79,.7); }
+
+  /* ── COUNTDOWN / ACHIEVEMENTS ── */
+  #achievements {
+    padding: 5rem 2rem;
+    text-align: center;
+    background: linear-gradient(180deg, transparent, rgba(155,93,229,.06), transparent);
+  }
+
+  .ach-grid {
+    display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
+    max-width: 900px; margin: 0 auto;
+  }
+
+  .ach-pill {
+    display: flex; align-items: center; gap: .8rem;
+    padding: .8rem 1.8rem;
+    border-radius: 999px;
+    background: rgba(255,255,255,.06);
+    border: 1px solid rgba(255,255,255,.12);
+    font-weight: 700; font-size: 1rem;
+    transition: transform .25s, background .25s;
+    opacity: 0; transform: scale(.85);
+  }
+  .ach-pill.visible { opacity: 1; transform: scale(1); transition: opacity .5s, transform .5s; }
+  .ach-pill:hover { background: rgba(249,199,79,.15); transform: scale(1.06); }
+  .ach-pill span:first-child { font-size: 1.5rem; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 4rem 1rem 5rem;
+    font-size: .85rem;
+    color: rgba(255,255,255,.3);
+    letter-spacing: .08em;
+  }
+  footer strong { color: var(--gold); }
+
+  /* ── scrollbar ── */
+  ::-webkit-scrollbar { width: 6px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--violet); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div id="cursor"></div>
+<canvas id="stars"></canvas>
+<canvas id="confetti"></canvas>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="glow-ring r1"></div>
+  <div class="glow-ring r2"></div>
+  <div class="glow-ring r3"></div>
+
+  <div class="badge">🎓 Офіційне Оголошення</div>
+
+  <h1>
+    Вітаємо,
+    <span class="name">Вероніко!</span>
+  </h1>
+
+  <p class="subtitle">
+    Ти зробила це — <strong>здала екзамен</strong>! 🏆<br>
+    Усі ночі без сну, конспекти, нерви — усе це окупилось. Ти справжня зірка! ✨
+  </p>
+
+  <a href="#cards" class="btn-scroll">
+    Дивитися далі 🎉
+  </a>
+</section>
+
+<!-- CARDS -->
+<section id="cards">
+  <h2 class="section-title">Чому ти неймовірна</h2>
+  <div class="cards-grid">
+    <div class="card">
+      <span class="card-icon">📚</span>
+      <h3>Залізна витримка</h3>
+      <p>Ти вивчила матеріал від і до, коли інші б уже здались. Це не удача — це сила характеру.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🧠</span>
+      <h3>Розум і вогонь</h3>
+      <p>Твоя голова — справжній суперкомп'ютер! І вона щойно пройшла черговий стрес-тест на відмінно.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🌟</span>
+      <h3>Натхнення для інших</h3>
+      <p>Дивлячись на тебе, усі навколо розуміють: якщо захотіти — все можливо. Ти — приклад.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🚀</span>
+      <h3>Майбутнє — твоє</h3>
+      <p>Це лише початок великого шляху. Наступна зупинка? Будь-яка мета, яку ти обереш!</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">💪</span>
+      <h3>Незламний дух</h3>
+      <p>Навіть коли було важко, ти не здалась. Це і є справжня перемога — над сумнівами.</p>
+    </div>
+    <div class="card">
+      <span class="card-icon">🎊</span>
+      <h3>Час святкувати!</h3>
+      <p>Відклади підручники, увімкни улюблену музику і насолоджуйся заслуженим відпочинком!</p>
+    </div>
+  </div>
+</section>
+
+<!-- ACHIEVEMENTS -->
+<section id="achievements">
+  <h2 class="section-title">Досягнення розблоковано</h2>
+  <div class="ach-grid">
+    <div class="ach-pill"><span>🏅</span> Переможець екзамену</div>
+    <div class="ach-pill"><span>☕</span> Вижила на кофеїні</div>
+    <div class="ach-pill"><span>📖</span> Прочитала 100500 сторінок</div>
+    <div class="ach-pill"><span>🌙</span> Майстер нічних штурмів</div>
+    <div class="ach-pill"><span>🎯</span> Снайпер відповідей</div>
+    <div class="ach-pill"><span>🦋</span> Легенда потоку</div>
+    <div class="ach-pill"><span>⚡</span> Швидкість думки</div>
+    <div class="ach-pill"><span>👑</span> Королева сесії</div>
+  </div>
+
+  <button id="fireworks-btn" onclick="launchFireworks()" style="margin-top:3.5rem;">
+    🎆 Запустити феєрверк!
+  </button>
+</section>
+
+<footer>
+  Зроблено з любов'ю спеціально для <strong>Вероніки</strong> 💛 &nbsp;·&nbsp; Ти зробила це!
+</footer>
+
+<script>
+/* ─── Cursor ─── */
+const cur = document.getElementById('cursor');
+document.addEventListener('mousemove', e => {
+  cur.style.left = e.clientX + 'px';
+  cur.style.top  = e.clientY + 'px';
+});
+document.querySelectorAll('a,button,.card,.ach-pill').forEach(el => {
+  el.addEventListener('mouseenter', () => cur.classList.add('big'));
+  el.addEventListener('mouseleave', () => cur.classList.remove('big'));
+});
+
+/* ─── Stars ─── */
+const sc = document.getElementById('stars');
+const sctx = sc.getContext('2d');
+let stars = [];
+function resizeStars() {
+  sc.width = window.innerWidth; sc.height = window.innerHeight;
+  stars = Array.from({length: 220}, () => ({
+    x: Math.random()*sc.width, y: Math.random()*sc.height,
+    r: Math.random()*1.6+.3,
+    a: Math.random(), da: (Math.random()-.5)*.008
+  }));
+}
+resizeStars();
+window.addEventListener('resize', resizeStars);
+function drawStars() {
+  sctx.clearRect(0,0,sc.width,sc.height);
+  stars.forEach(s => {
+    s.a += s.da;
+    if (s.a <= 0 || s.a >= 1) s.da *= -1;
+    sctx.beginPath();
+    sctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+    sctx.fillStyle = `rgba(255,255,255,${s.a})`;
+    sctx.fill();
+  });
+  requestAnimationFrame(drawStars);
+}
+drawStars();
+
+/* ─── Confetti ─── */
+const cc = document.getElementById('confetti');
+const cctx = cc.getContext('2d');
+cc.width = window.innerWidth; cc.height = window.innerHeight;
+window.addEventListener('resize', () => { cc.width = window.innerWidth; cc.height = window.innerHeight; });
+
+const COLORS = ['#f9c74f','#f94f8b','#9b5de5','#00bbf9','#00f5d4','#ff6b6b','#ffd93d'];
+let particles = [];
+
+function spawnConfetti(n=140, cx=cc.width/2, cy=cc.height/2) {
+  for (let i=0; i<n; i++) {
+    const angle = Math.random()*Math.PI*2;
+    const speed = Math.random()*12+4;
+    particles.push({
+      x: cx, y: cy,
+      vx: Math.cos(angle)*speed, vy: Math.sin(angle)*speed - Math.random()*6,
+      rot: Math.random()*360, rspeed: (Math.random()-0.5)*8,
+      w: Math.random()*10+5, h: Math.random()*5+3,
+      color: COLORS[Math.floor(Math.random()*COLORS.length)],
+      life: 1, decay: Math.random()*.012+.008
+    });
+  }
+}
+
+function drawConfetti() {
+  cctx.clearRect(0,0,cc.width,cc.height);
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => {
+    p.x += p.vx; p.vy += .25; p.y += p.vy;
+    p.rot += p.rspeed; p.life -= p.decay;
+    cctx.save();
+    cctx.globalAlpha = p.life;
+    cctx.translate(p.x, p.y);
+    cctx.rotate(p.rot * Math.PI/180);
+    cctx.fillStyle = p.color;
+    cctx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+    cctx.restore();
+  });
+  requestAnimationFrame(drawConfetti);
+}
+drawConfetti();
+
+/* auto confetti on load */
+setTimeout(() => spawnConfetti(200, cc.width/2, cc.height*.3), 800);
+setTimeout(() => spawnConfetti(120, cc.width*.2, cc.height*.2), 1400);
+setTimeout(() => spawnConfetti(120, cc.width*.8, cc.height*.2), 1800);
+
+function launchFireworks() {
+  for (let i=0; i<6; i++) {
+    setTimeout(() => {
+      spawnConfetti(160, Math.random()*cc.width*.8+cc.width*.1, Math.random()*cc.height*.5);
+    }, i*180);
+  }
+}
+
+/* ─── Floating Emoji ─── */
+const emojis = ['🎉','🎊','⭐','✨','🌟','🏆','🎓','💫','🦋','🌸','🎆','🎇'];
+function spawnFloat() {
+  const el = document.createElement('div');
+  el.className = 'floaty';
+  el.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+  el.style.left = Math.random()*95 + 'vw';
+  el.style.bottom = '-60px';
+  const dur = Math.random()*5+6;
+  el.style.animationDuration = dur + 's';
+  el.style.fontSize = (Math.random()*1.6+1.4) + 'rem';
+  document.body.appendChild(el);
+  setTimeout(() => el.remove(), dur*1000);
+}
+setInterval(spawnFloat, 900);
+
+/* ─── Scroll reveal ─── */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: .15 });
+document.querySelectorAll('.card,.ach-pill').forEach((el,i) => {
+  el.style.transitionDelay = (i * .07) + 's';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
