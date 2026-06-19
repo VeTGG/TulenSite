@@ -1,0 +1,240 @@
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/simple-icons-font@13/font/simple-icons.min.css">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap');
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  .bg-wrap {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(160deg, #b8f0c8 0%, #8fd6ef 50%, #c3f0a0 100%);
+    min-height: 600px;
+    padding: 2rem 1rem 3rem;
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+  .floating { position: absolute; font-size: 2rem; animation: floatup 6s ease-in-out infinite; pointer-events: none; user-select: none; }
+  .floating:nth-child(1) { left: 5%; top: 10%; animation-delay: 0s; }
+  .floating:nth-child(2) { left: 85%; top: 15%; animation-delay: 1s; }
+  .floating:nth-child(3) { left: 15%; top: 70%; animation-delay: 2s; }
+  .floating:nth-child(4) { left: 75%; top: 65%; animation-delay: 0.5s; }
+  .floating:nth-child(5) { left: 50%; top: 5%; animation-delay: 1.5s; }
+  .floating:nth-child(6) { left: 92%; top: 50%; animation-delay: 3s; }
+  @keyframes floatup { 0%, 100% { transform: translateY(0px) rotate(0deg); } 50% { transform: translateY(-18px) rotate(8deg); } }
+  .center { text-align: center; position: relative; z-index: 2; }
+  .logo-badge { display: inline-block; background: rgba(255,255,255,0.35); border: 2px solid rgba(255,255,255,0.6); border-radius: 999px; padding: 6px 20px; font-size: 13px; font-weight: 700; color: #1a5c30; letter-spacing: 0.5px; margin-bottom: 1rem; }
+  .main-title { font-size: clamp(2rem, 7vw, 3.2rem); font-weight: 900; color: #fff; text-shadow: 0 3px 0 #2a7a3a, 0 1px 12px rgba(0,0,0,0.15); line-height: 1.1; margin-bottom: 0.4rem; }
+  .sub-title { font-size: clamp(1.1rem, 4vw, 1.6rem); font-weight: 700; color: #1a5c30; margin-bottom: 1.5rem; }
+  .prize-card { background: rgba(255,255,255,0.88); border-radius: 20px; border: 2px solid rgba(255,255,255,0.9); padding: 1.5rem 1.5rem 1.2rem; max-width: 460px; margin: 0 auto 1.5rem; box-shadow: 0 8px 32px rgba(30,100,50,0.13); }
+  .prize-label { font-size: 12px; font-weight: 700; letter-spacing: 1.5px; color: #2a9a50; text-transform: uppercase; margin-bottom: 0.6rem; }
+  .prize-item { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px dashed #d4f0dc; font-size: 15px; color: #1a3a20; font-weight: 700; }
+  .prize-item:last-child { border-bottom: none; }
+  .prize-icon { font-size: 1.5rem; min-width: 2rem; text-align: center; }
+  .login-card { background: rgba(255,255,255,0.92); border-radius: 20px; border: 2px solid rgba(255,255,255,0.95); padding: 1.2rem 1.5rem; max-width: 460px; margin: 0 auto 1.2rem; box-shadow: 0 8px 32px rgba(30,100,50,0.13); }
+  .login-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .si { font-family: 'Simple Icons'; font-style: normal; }
+  .login-title { font-size: 16px; font-weight: 900; color: #1a3a20; }
+  .login-sub { font-size: 13px; color: #3a6a44; font-weight: 700; margin-bottom: 12px; }
+  .btn-roblox-login { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 12px; border-radius: 999px; border: none; background: #1a1a1a; color: #fff; font-family: 'Nunito', sans-serif; font-size: 16px; font-weight: 900; cursor: pointer; transition: opacity 0.15s, transform 0.1s; box-shadow: 0 4px 0 #000; }
+  .btn-roblox-login:hover { opacity: 0.88; transform: translateY(-2px); }
+  .btn-roblox-login:active { transform: translateY(2px); box-shadow: 0 2px 0 #000; }
+  .logged-in-badge { display: none; align-items: center; gap: 10px; background: #e8faf0; border: 2px solid #2a9a50; border-radius: 14px; padding: 10px 14px; margin-top: 10px; }
+  .logged-in-badge .avatar { width: 36px; height: 36px; border-radius: 50%; background: #2a9a50; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 900; color: #fff; }
+  .logged-in-badge .uname { font-size: 15px; font-weight: 900; color: #1a3a20; }
+  .logged-in-badge .ustatus { font-size: 12px; color: #2a7a40; font-weight: 700; }
+  .btn-logout { margin-left: auto; background: none; border: 1.5px solid #c0d8c8; border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 700; color: #2a7a40; padding: 4px 12px; cursor: pointer; }
+  .btn-logout:hover { background: #f0faf4; }
+  .form-card { background: rgba(255,255,255,0.92); border-radius: 20px; border: 2px solid rgba(255,255,255,0.95); padding: 1.5rem; max-width: 460px; margin: 0 auto 1.5rem; box-shadow: 0 8px 32px rgba(30,100,50,0.13); }
+  .form-title { font-size: 17px; font-weight: 900; color: #1a3a20; margin-bottom: 1rem; text-align: left; }
+  .form-group { margin-bottom: 12px; }
+  .form-group label { display: block; font-size: 12px; font-weight: 700; color: #2a7a40; margin-bottom: 4px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .form-group input, .form-group select { width: 100%; padding: 10px 14px; border-radius: 10px; border: 1.5px solid #b8e8c8; font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 700; color: #1a3a20; background: #f0faf4; outline: none; transition: border-color 0.2s; }
+  .form-group input:focus, .form-group select:focus { border-color: #2a9a50; background: #fff; }
+  .form-group input:disabled, .form-group select:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-enter { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 14px; border-radius: 999px; border: none; background: linear-gradient(135deg, #3ecf6e, #1a9a44); color: #fff; font-family: 'Nunito', sans-serif; font-size: 18px; font-weight: 900; cursor: pointer; box-shadow: 0 4px 0 #0f6e30; transform: translateY(0); transition: transform 0.1s, box-shadow 0.1s, opacity 0.15s; margin-top: 4px; }
+  .btn-enter:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 0 #0f6e30; }
+  .btn-enter:active:not(:disabled) { transform: translateY(2px); box-shadow: 0 2px 0 #0f6e30; }
+  .btn-enter:disabled { background: #a0c8a8; box-shadow: 0 4px 0 #6a9a70; cursor: not-allowed; opacity: 0.7; }
+  .login-required-hint { font-size: 13px; font-weight: 700; color: #b05010; background: #fff5e8; border: 1.5px solid #f5c080; border-radius: 10px; padding: 8px 12px; margin-top: 8px; display: none; text-align: center; }
+  .conditions { max-width: 460px; margin: 0 auto 1.5rem; text-align: left; background: rgba(255,255,255,0.55); border-radius: 14px; padding: 1rem 1.2rem; font-size: 13px; color: #1a4a28; font-weight: 700; }
+  .conditions h4 { font-size: 13px; font-weight: 900; color: #1a3a20; margin-bottom: 6px; text-transform: uppercase; }
+  .cond-item { display: flex; align-items: flex-start; gap: 8px; margin-bottom: 5px; }
+  .cond-num { background: #2a9a50; color: #fff; border-radius: 50%; width: 20px; height: 20px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 900; margin-top: 1px; }
+  .socials { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 0.5rem; }
+  .social-btn { display: flex; align-items: center; gap: 8px; padding: 9px 18px; border-radius: 999px; font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 700; text-decoration: none; border: none; cursor: pointer; transition: transform 0.1s, opacity 0.1s; }
+  .social-btn:hover { transform: scale(1.05); opacity: 0.92; }
+  .btn-discord { background: #5865F2; color: #fff; }
+  .btn-rblx { background: #1a1a1a; color: #fff; }
+  .btn-twitter { background: #000; color: #fff; }
+  .si-icon { font-family: 'Simple Icons'; font-style: normal; font-size: 17px; line-height: 1; display: flex; align-items: center; }
+  .countdown-bar { background: rgba(255,255,255,0.75); border-radius: 14px; padding: 0.8rem 1.2rem; max-width: 460px; margin: 0 auto 1.2rem; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 14px; font-weight: 700; color: #1a3a20; }
+  .cd-box { background: #2a9a50; color: #fff; border-radius: 8px; padding: 4px 10px; font-size: 18px; font-weight: 900; min-width: 40px; text-align: center; }
+  .cd-sep { font-size: 18px; font-weight: 900; color: #2a7a40; }
+  .success-msg { display: none; background: #d4f7e0; border: 2px solid #2a9a50; border-radius: 16px; padding: 1.5rem; text-align: center; max-width: 460px; margin: 0 auto; }
+  .success-msg .big { font-size: 3rem; }
+  .success-msg p { font-size: 15px; font-weight: 700; color: #1a5c30; margin-top: 0.5rem; }
+</style>
+
+<div class="bg-wrap">
+  <div class="floating">🌱</div>
+  <div class="floating">🥕</div>
+  <div class="floating">🌻</div>
+  <div class="floating">🌿</div>
+  <div class="floating">🍓</div>
+  <div class="floating">🌸</div>
+
+  <div class="center">
+    <div class="logo-badge">Grow a Garden 2 — Официальный розыгрыш</div>
+    <div class="main-title">РОЗЫГРЫШ</div>
+    <div class="sub-title">Прими участие и выиграй редкие предметы!</div>
+
+    <div class="countdown-bar">
+      <span>Завершится через:</span>
+      <div class="cd-box" id="cd-d">03</div>
+      <span class="cd-sep">:</span>
+      <div class="cd-box" id="cd-h">12</div>
+      <span class="cd-sep">:</span>
+      <div class="cd-box" id="cd-m">45</div>
+      <span class="cd-sep">:</span>
+      <div class="cd-box" id="cd-s">00</div>
+    </div>
+
+    <div class="prize-card">
+      <div class="prize-label">Призы победителей</div>
+      <div class="prize-item"><span class="prize-icon">🥇</span> 1 место — 2 Енота + 1000 робуксов</div>
+      <div class="prize-item"><span class="prize-icon">🥈</span> 2 место — Енот + 500 робуксов</div>
+      <div class="prize-item"><span class="prize-icon">🥉</span> 3 место — 500 робуксов</div>
+      <div class="prize-item"><span class="prize-icon">🎁</span> 5–10 место — 250 робуксов</div>
+    </div>
+
+    <div class="login-card">
+      <div class="login-header">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/roblox.svg" width="28" height="28" style="filter: invert(0%);" alt="Roblox">
+        <div class="login-title">Войти через Roblox</div>
+      </div>
+      <div class="login-sub">Необходимо для участия в розыгрыше</div>
+      <button class="btn-roblox-login" id="btn-login" onclick="doLogin()">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/roblox.svg" width="20" height="20" style="filter: invert(100%);" alt="">
+        Залогиниться в Roblox
+      </button>
+      <div class="logged-in-badge" id="logged-badge">
+        <div class="avatar" id="user-avatar">R</div>
+        <div>
+          <div class="uname" id="user-name">RobloxPlayer</div>
+          <div class="ustatus">✅ Аккаунт подтверждён</div>
+        </div>
+        <button class="btn-logout" onclick="doLogout()">Выйти</button>
+      </div>
+    </div>
+
+    <div class="form-card" id="form-block">
+      <div class="form-title">Заполни и участвуй!</div>
+      <div class="form-group">
+        <label>Telegram @username</label>
+        <input type="text" id="tg-nick" placeholder="@твой_ник" disabled />
+      </div>
+      <div class="form-group">
+        <label>Как узнал о розыгрыше?</label>
+        <select id="source" disabled>
+          <option value="">— выбери —</option>
+          <option>Телеграм-канал</option>
+          <option>Discord</option>
+          <option>От друга</option>
+          <option>Twitter / X</option>
+          <option>Другое</option>
+        </select>
+      </div>
+      <button class="btn-enter" id="btn-submit" onclick="enterGiveaway()" disabled>
+        🌱 Подать заявку
+      </button>
+      <div class="login-required-hint" id="login-hint">⚠️ Сначала войди через Roblox!</div>
+    </div>
+
+    <div class="success-msg" id="success-block">
+      <div class="big">🎉</div>
+      <p>Ты в розыгрыше! Следи за результатами в нашем Telegram и Discord.</p>
+    </div>
+
+    <div class="conditions">
+      <h4>Условия участия</h4>
+      <div class="cond-item"><div class="cond-num">1</div><span>Подпишись на наш Telegram-канал</span></div>
+      <div class="cond-item"><div class="cond-num">2</div><div>Вступи в Discord сервер</div></div>
+      <div class="cond-item"><div class="cond-num">3</div><div>Войди через Roblox и заполни форму</div></div>
+      <div class="cond-item"><div class="cond-num">4</div><div>Победители выбираются случайно после окончания розыгрыша</div></div>
+    </div>
+
+    <div class="socials">
+      <a class="social-btn btn-discord" href="https://discord.gg/H8qPF3QnMF" target="_blank">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/discord.svg" width="17" height="17" style="filter: invert(100%);" alt="">
+        Discord
+      </a>
+      <a class="social-btn btn-rblx" href="https://www.roblox.com/games/97598239454123/Grow-a-Garden-2" target="_blank">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/roblox.svg" width="17" height="17" style="filter: invert(100%);" alt="">
+        Roblox
+      </a>
+      <a class="social-btn btn-twitter" href="https://x.com/GrowaGardenRblx" target="_blank">
+        <img src="https://cdn.jsdelivr.net/npm/simple-icons@13/icons/x.svg" width="17" height="17" style="filter: invert(100%);" alt="">
+        Twitter / X
+      </a>
+    </div>
+  </div>
+</div>
+
+<script>
+let isLoggedIn = false;
+const fakeNames = ['CoolGamer123', 'PlantMaster', 'GardenKing99', 'RobloxFan', 'GrowExpert'];
+
+function doLogin() {
+  const fakeName = fakeNames[Math.floor(Math.random() * fakeNames.length)];
+  isLoggedIn = true;
+  document.getElementById('btn-login').style.display = 'none';
+  const badge = document.getElementById('logged-badge');
+  badge.style.display = 'flex';
+  document.getElementById('user-name').textContent = fakeName;
+  document.getElementById('user-avatar').textContent = fakeName[0].toUpperCase();
+  document.getElementById('tg-nick').disabled = false;
+  document.getElementById('source').disabled = false;
+  document.getElementById('btn-submit').disabled = false;
+  document.getElementById('login-hint').style.display = 'none';
+}
+
+function doLogout() {
+  isLoggedIn = false;
+  document.getElementById('btn-login').style.display = 'flex';
+  document.getElementById('logged-badge').style.display = 'none';
+  document.getElementById('tg-nick').disabled = true;
+  document.getElementById('source').disabled = true;
+  document.getElementById('btn-submit').disabled = true;
+}
+
+function enterGiveaway() {
+  if (!isLoggedIn) {
+    document.getElementById('login-hint').style.display = 'block';
+    return;
+  }
+  const tg = document.getElementById('tg-nick').value.trim();
+  const src = document.getElementById('source').value;
+  if (!tg || !src) {
+    alert('Пожалуйста, заполни все поля!');
+    return;
+  }
+  document.getElementById('form-block').style.display = 'none';
+  document.getElementById('success-block').style.display = 'block';
+}
+
+(function startCountdown() {
+  const end = Date.now() + (3 * 86400 + 12 * 3600 + 45 * 60) * 1000;
+  function update() {
+    const diff = Math.max(0, end - Date.now());
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    const s = Math.floor((diff % 60000) / 1000);
+    document.getElementById('cd-d').textContent = String(d).padStart(2,'0');
+    document.getElementById('cd-h').textContent = String(h).padStart(2,'0');
+    document.getElementById('cd-m').textContent = String(m).padStart(2,'0');
+    document.getElementById('cd-s').textContent = String(s).padStart(2,'0');
+    setTimeout(update, 1000);
+  }
+  update();
+})();
+</script>
